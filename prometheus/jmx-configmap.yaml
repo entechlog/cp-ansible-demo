@@ -1,0 +1,12 @@
+data:
+  jmx-ksql-server-prometheus.yml: |+
+    jmxUrl: service:jmx:rmi:///jndi/rmi://localhost:{{ .Values.jmx.port }}/jmxrmi
+    lowercaseOutputName: true
+    lowercaseOutputLabelNames: true
+    ssl: false
+    whitelistObjectNames:
+    - io.confluent.ksql.metrics:type=ksql-engine-query-stats
+    rules:
+    - pattern : 'io.confluent.ksql.metrics<type=ksql-engine-query-stats>([^:]+):'
+      name: "cp_ksql_server_metrics_$1"
+
